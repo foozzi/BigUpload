@@ -8,6 +8,8 @@ BigUpload
 
 BigUpload is a tool for handling large file uploads through the browser.
 
+![Screenshot](http://i.imgur.com/vESk5dp.png)
+
 -------------------------------------------------------------------------
 
 It uses the HTML5 FileReader library to split large files into manageable chunks,
