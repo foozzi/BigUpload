@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<div id="progressBar">
+			<div class="container">
+				<h1>File Uploader</h1>
+				<form>
+					<input type="file" id="file" />
+					<input type="button" class="button" value="Start Upload" onclick="upload()" />
+					<input type="button" class="button abort" value="Cancel" onclick="abort()" />
+				</form>
+				<div id="progressBarContainer">
+					<div id="progressBarFilled">
+					</div>
+				</div>
+				<div id="response"></div>
+			</div>
+		</div>
+	</body>
+</html>
