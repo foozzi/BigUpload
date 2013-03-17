@@ -30,26 +30,36 @@ class BigUpload
 		fwrite($handle, $fileData);
 		fclose($handle);
 
-		return $this->tmpName;
+		return json_encode(array(
+			'key' => $this->tmpName,
+			'errorStatus' => 0
+		));
 	}
 
 	//Function for cancelling uploads while they're in-progress; just deletes the temp file
 	public function abortUpload() {
 		if(unlink($this->tempDirectory . $this->tmpName)) {
-			return true;
+			return json_encode(array('errorStatus' => 0));
 		}
 		else {
-			return 'Unable to delete temporary file.';
+
+			return json_encode(array(
+				'errorStatus' => 1,
+				'errorText' => 'Unable to delete temporary file.'
+			));
 		}
 	}
 
 	//Function to rename and move the finished file
 	public function finishUpload($finalName) {
 		if(rename($this->tempDirectory . $this->tmpName, $this->mainDirectory . $finalName)) {
-			return 'Success.';
+			return json_encode(array('errorStatus' => 0));
 		}
 		else {
-			return 'Unable to move file after uploading.';
+			return json_encode(array(
+				'errorStatus' => 1,
+				'errorText' => 'Unable to move file after uploading.'
+			));
 		}
 	}
 }

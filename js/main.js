@@ -2,7 +2,8 @@ function bigUpload () {
 	//ID of file input element
 	this.inputField = 'file';
 	this.progressBarField = 'progressBarFilled';
-	this.responseField = 'response';
+	this.timeRemainingField = 'timeRemaining';
+	this.responseField = 'uploadResponse';
 	//Size of chunks to upload (in bytes)
 	this.chunkSize = 1000000;
 	//Max file size allowed
@@ -12,6 +13,8 @@ function bigUpload () {
 	this.key = 0;
 	parent = this;
 
+	this.timeStart = 0;
+
 	//Initial method called
 	//Pulls the size of the file being uploaded and calculated the number of chunks, then calls the recursive upload method
 	this.processFiles = function() {
@@ -19,6 +22,7 @@ function bigUpload () {
 		//Reset the background color of the progress bar in case it was changed by any earlier errors
 		document.getElementById(this.progressBarField).style.backgroundColor = 'rgb(91, 183, 91)';
 		document.getElementById(this.responseField).textContent = '';
+		this.timeStart = new Date().getTime();
 
 		this.file = document.getElementById(this.inputField).files[0];
 		var fileSize = this.file.size;
@@ -51,14 +55,15 @@ function bigUpload () {
 
 			xhr.onreadystatechange = function() {
 				if(xhr.readyState == 4) {
-					if(xhr.responseText == 'error' || xhr.status != 200) {
-						//Call your error function here
-						parent.printResponse('There was an error.', true);
+					var response = JSON.parse(xhr.response);
+					if(response.errorStatus !== 0 || xhr.status != 200) {
+						//Call the error method
+						parent.printResponse(response.errorText, true);
 						return;
 					}
 					if(chunk === 0 || parent.key === 0) {
 						//If it's the first chunk, set this.key to the server response
-						parent.key = xhr.responseText;
+						parent.key = response.key;
 					}
 
 					if(chunk < numberOfChunks) {
@@ -92,6 +97,12 @@ function bigUpload () {
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
 		xhr.onreadystatechange = function() {
+				var response = JSON.parse(xhr.response);
+				if(response.errorStatus !== 0 || xhr.status != 200) {
+					//Call the error method
+					parent.printResponse(response.errorText, true);
+					return;
+				}
 				if(xhr.readyState == 4) {
 					parent.progressUpdate(1, 1);
 					parent.printResponse('File uploaded successfully.', false);
@@ -111,6 +122,12 @@ function bigUpload () {
 
 		xhr.onreadystatechange = function() {
 				if(xhr.readyState == 4) {
+					var response = JSON.parse(xhr.response);
+					if(response.errorStatus !== 0 || xhr.status != 200) {
+						//Call the error method
+						parent.printResponse(response.errorText, true);
+						return;
+					}
 					parent.printResponse('File upload was cancelled.', true);
 				}
 
@@ -121,20 +138,31 @@ function bigUpload () {
 	this.resetKey = function() {
 		this.key = 0;
 		this.aborted = false;
-	}
+		this.timeStart = 0;
+	};
 
 	//This method updates a simple progress bar.
 	this.progressUpdate = function(progress, total) {
 		var percent = Math.ceil((progress / total) * 100);
 		document.getElementById(this.progressBarField).style.width = percent + '%';
 		document.getElementById(this.progressBarField).textContent = percent + '%';
+
+		//Calculate the estimated time remaining
+		//Only run this every five chunks, otherwise the time remaining jumps all over the place (see: http://xkcd.com/612/)
+		if(progress % 5 === 0) {
+			var currentTime = new Date().getTime();
+			var timeLeft = Math.ceil((currentTime - (this.timeStart / progress)) * (total - progress) / 10000000000000);
+
+			document.getElementById(this.timeRemainingField).textContent = timeLeft + ' seconds remaining';
+			this.timeStart += currentTime;
+		}
 	};
 
 	this.printResponse = function(responseText, error) {
 		document.getElementById(this.responseField).textContent = responseText;
+		document.getElementById(this.timeRemainingField).textContent = '';
 		if(error === true) {
 			document.getElementById(this.progressBarField).style.backgroundColor = 'rgb(218, 79, 73)';
 		}
 	};
 }
-//	if (window.File && window.FileReader && window.FileList && window.Blob) {

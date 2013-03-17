@@ -2,9 +2,47 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="style.css">
+		<script src="js/main.js"></script>
+		<script>
+		bigUpload = new bigUpload();
+
+		//The id of the file input
+		bigUpload.inputField = 'file';
+
+		//The id of the progress bar
+		//Width of this element will change based on progress
+		//Content of this element will display a percentage
+		//See bigUpload.progressUpdate() to change this code
+		bigUpload.progressBarField = 'progressBarFilled';
+
+		//The id of the time remaining field
+		//Content of this element will display the estimated time remaining for the upload
+		//See bigUpload.progressUpdate() to change this code
+		bigUpload.timeRemainingField = 'timeRemaining';
+
+		//The id of the text response field
+		//Content of this element will display the response from the server on success or error
+		bigUpload.responseField = 'uploadResponse';
+
+		//Size of file chunks to upload (in bytes)
+		//Default: 1MB
+		bigUpload.chunkSize = 1000000;
+
+		//Max file size allowed (in bytes)
+		//Default: 2GB
+		bigUpload.maxFileSize = 2147483648;
+
+		function upload() {
+			bigUpload.resetKey();
+			bigUpload.processFiles();
+		}
+		function abort() {
+			bigUpload.abortFileUpload();
+		}
+		</script>
 	</head>
 	<body>
-		<div id="progressBar">
+		<div id="bigUpload">
 			<div class="container">
 				<h1>File Uploader</h1>
 				<form>
@@ -15,8 +53,9 @@
 				<div id="progressBarContainer">
 					<div id="progressBarFilled">
 					</div>
+					<div id="timeRemaining"></div>
 				</div>
-				<div id="response"></div>
+				<div id="uploadResponse"></div>
 			</div>
 		</div>
 	</body>
