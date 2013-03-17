@@ -1,8 +1,10 @@
 -------------------------------------------------------------------------
 
 BigUpload 
-	version 1.0.1
-	Created by: Sean Thielen <sean@p27.us>
+
+version 1.0.1
+
+Created by: Sean Thielen <sean@p27.us>
 
 -------------------------------------------------------------------------
 
@@ -24,8 +26,8 @@ This tool is capable of handling file uploads of up to 2GB in size, without the 
 the max_upload and timeout variables on your httpd.
 
 If you want to deploy this as-is, the variables you need to worry about are in the top of
-	index.html (for js variables)
-	inc/bigUpload.php (for the folder paths--make sure they're writable)
+	*index.html (for js variables)
+	*inc/bigUpload.php (for the folder paths--make sure they're writable)
 
 
 Please feel free to contribute!
@@ -33,10 +35,10 @@ Please feel free to contribute!
 -------------------------------------------------------------------------
 
 v 1.0.1
-Added time remaining calculator
-Response from php script is now a json object, allowing for error processing
-Minor script changes and bugfixes
-Better comments
+*Added time remaining calculator
+*Response from php script is now a json object, allowing for error processing
+*Minor script changes and bugfixes
+*Better comments
 
 v 1.0.0
-Initial version
+*Initial version
