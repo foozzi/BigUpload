@@ -2,13 +2,12 @@
 
 BigUpload 
 
-version 1.0.1
-
+version 1.0.1    
 Created by: Sean Thielen <sean@p27.us>
 
 -------------------------------------------------------------------------
 
-BigUpload is a tool for handling large file uploads through the browser.
+BigUpload is a tool for handling large file uploads (tested up to 2GB) through the browser.
 
 ![Screenshot](http://i.imgur.com/vESk5dp.png)
 
@@ -34,11 +33,11 @@ Please feel free to contribute!
 
 -------------------------------------------------------------------------
 
-v 1.0.1
-*Added time remaining calculator
-*Response from php script is now a json object, allowing for error processing
-*Minor script changes and bugfixes
+v 1.0.1    
+*Added time remaining calculator    
+*Response from php script is now a json object, allowing for error processing    
+*Minor script changes and bugfixes    
 *Better comments
 
-v 1.0.0
+v 1.0.0    
 *Initial version
