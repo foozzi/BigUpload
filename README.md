@@ -24,9 +24,9 @@ and a fairly accurate time remaining variable.
 This tool is capable of handling file uploads of up to 2GB in size, without the need to tweak
 the max_upload and timeout variables on your httpd.
 
-If you want to deploy this as-is, the variables you need to worry about are in the top of
-	*index.html (for js variables)
-	*inc/bigUpload.php (for the folder paths--make sure they're writable)
+If you want to deploy this as-is, the variables you need to worry about are in the top of    
+	* index.html (for js variables)    
+	* inc/bigUpload.php (for the folder paths--make sure they're writable)
 
 
 Please feel free to contribute!
